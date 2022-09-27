@@ -77,3 +77,27 @@ class RenderWindow:
         glViewport(0, 0, self.width, self.height)
         glEnable(GL_DEPTH_TEST)
         glClearColor(0.5, 0.5, 0.5, 1.0)
+
+# set window callbacks
+        glfw.glfwSetMouseButtonCallback(self.win, self.onMouseButton)
+        glfw.glfwSetKeyCallback(self.win, self.onKeyboard)
+        glfw.glfwSetWindowSizeCallback(self.win, self.onSize)
+
+# keyboard callback
+    def onKeyboard(self, win, key, scancode, action, mods):
+#print 'keyboard: ', win, key, scancode, action, mods
+        if action == glfw.GLFW_PRESS:
+# ESC to quit
+                if key == glfw.GLFW_KEY_ESCAPE:
+                        self.exitNow = True
+                else:
+# toggle cut
+                        self.scene.showCircle = not self.scene.showCircle
+
+# window-resizing event
+    def onSize(self, win, width, height):
+#print 'onsize: ', win, width, height
+        self.width = width
+        self.height = height
+        self.aspect = width/float(height)
+        glViewport(0, 0, self.width, self.height)
