@@ -9,7 +9,7 @@
 # from OpenGL.GL import *
 
 # import numpy, math, sys, os
-# import glutils
+import glutils
 
 import glfw.GLFW as glfw
 
@@ -101,3 +101,31 @@ class RenderWindow:
         self.height = height
         self.aspect = width/float(height)
         glViewport(0, 0, self.width, self.height)
+
+# main loop (GLFW does not provide a default program loop.)
+    def run(self):
+# initializer timer
+        glfw.glfwSetTime(0)
+        t = 0.0
+        while not glfw.glfwWindowShouldClose(self.win) and not self.exitNow:
+# update every x seconds
+                currT = glfw.glfwGetTime()
+                if currT - t > 0.1:
+# update time
+                        t = currT
+# clear
+                        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+# build projection matrix
+                        pMatrix = glutils.perspective(45.0, self.aspect, 0.1, 100.0)
+                        
+                        mvMatrix = glutils.lookAt([0.0, 0.0, -2.0], [0.0, 0.0, 0.0],
+                                                  [0.0, 1.0, 0.0])
+# render
+                        self.scene.render(pMatrix, mvMatrix)
+# step
+                        self.scene.step()
+                        glfw.glfwSwapBuffers(self.win)
+# poll for and process events
+                        glfw.glfwPollEvents()
+# end
+        glfw.glfwTerminate()
