@@ -5,7 +5,7 @@ from OpenGL.GL.shaders import *
 import numpy, math
 import numpy as np
 
-from PIL import Image
+from PIL import Image  
 
 def loadTexture(filename):
     """load OpenGL 2D texture from given image file"""
@@ -42,7 +42,6 @@ def ortho(l, r, b, t, n, f):
                         -(r+l)/float(r-l), -(t+b)/float(t-b), 
                         -(f+n)/float(f-n), 1.0], 
                        numpy.float32)
-
 
 def lookAt(eye, center, up):
     """returns matrix equivalent of gluLookAt - based on MESA implementation"""

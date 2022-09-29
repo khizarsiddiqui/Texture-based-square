@@ -129,3 +129,18 @@ class RenderWindow:
                         glfw.glfwPollEvents()
 # end
         glfw.glfwTerminate()
+# the scene class
+class Scene:
+# OpenGL 3D scene class
+# initialization
+    def __init__(self):
+# create shader
+        self.program = glutils.loadShaders(strVS, strFS)
+        glUseProgram(self.program)
+        
+        self.pMatrixUniform = glGetUniformLocation(self.program, b'uPMatrix')
+        self.mvMatrixUniform = glGetUniformLocation(self.program, b'uMVMatrix')
+# texture
+        self.tex2D = glGetUniformLocation(self.program, b'tex2D')
+
+# defining 3d Geometry
