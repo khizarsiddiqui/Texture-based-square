@@ -144,3 +144,26 @@ class Scene:
         self.tex2D = glGetUniformLocation(self.program, b'tex2D')
 
 # defining 3d Geometry
+     # define triangle strip vertices
+        vertexData = numpy.array(
+                [-0.5, -0.5, 0.0,
+                  0.5, -0.5, 0.0,
+                 -0.5, 0.5, 0.0,
+                 0.5, 0.5, 0.0], numpy.float32)
+# set up vertex array object (VAO)
+        self.vao = glGenVertexArrays(1)
+        glBindVertexArray(self.vao)
+# vertices
+        self.vertexBuffer = glGenBuffers(1)
+        glBindBuffer(GL_ARRAY_BUFFER, self.vertexBuffer)
+# set buffer data
+        glBufferData(GL_ARRAY_BUFFER, 4*len(vertexData), vertexData,
+                     GL_STATIC_DRAW)
+# enable vertex array
+        glEnableVertexAttribArray(0)
+# set buffer data pointer
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+# unbind VAO
+        glBindVertexArray(0)
+# texture
+        self.texId = glutils.loadTexture('star.png')
