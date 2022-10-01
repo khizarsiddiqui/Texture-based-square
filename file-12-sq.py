@@ -167,3 +167,31 @@ class Scene:
         glBindVertexArray(0)
 # texture
         self.texId = glutils.loadTexture('star.png')
+# step
+    def step(self):
+# increment angle
+        self.t = (self.t + 1) % 360
+# set shader angle in radians
+        glUniform1f(glGetUniformLocation(self.program, 'uTheta'),
+                math.radians(self.t))
+# render
+    def render(self, pMatrix, mvMatrix):
+# use shader
+        glUseProgram(self.program)
+# set projection matrix
+        glUniformMatrix4fv(self.pMatrixUniform, 1, GL_FALSE, pMatrix)
+# set modelview matrix
+        glUniformMatrix4fv(self.mvMatrixUniform, 1, GL_FALSE, mvMatrix)
+# show circle?
+        glUniform1i(glGetUniformLocation(self.program, b'showCircle'),
+                self.showCircle)
+# enable texture
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, self.texId)
+        glUniform1i(self.tex2D, 0)
+# bind VAO
+        glBindVertexArray(self.vao)
+# draw
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4)
+# unbind VAO
+        glBindVertexArray(0)
