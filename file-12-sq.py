@@ -197,7 +197,6 @@ class Scene:
         glBindVertexArray(0)
 
 # vertex shader
-
 strVS = """
 #version 330 core
 
@@ -221,5 +220,30 @@ void main() {
         gl_Position = uPMatrix * uMVMatrix * rot * vec4(aVert, 1.0);
 # set texture coordinate
         vTexCoord = aVert.xy + vec2(0.5, 0.5);
+}
+"""
+# fragment shader
+strFS = """
+#version 330 core
+
+in vec2 vTexCoord;
+
+uniform sampler2D tex2D;
+uniform bool showCircle;
+
+out vec4 fragColor;
+void main() {
+        if (showCircle) {
+                // discard fragment outside circle
+                if (distance(vTexCoord, vec2(0.5, 0.5)) > 0.5) {
+                        discard;
+                }
+                else {
+                        fragColor = texture(tex2D, vTexCoord);
+                }
+        }
+        else {
+                fragColor = texture(tex2D, vTexCoord);
+        }
 }
 """
